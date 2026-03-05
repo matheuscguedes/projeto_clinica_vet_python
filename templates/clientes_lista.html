@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>👥 Gestão de Clientes</h2>
+    <a href="{{ url_for('clientes_novo') }}" class="btn btn-success shadow-sm">
+        <i class="bi bi-person-plus-fill"></i> Novo Cliente
+    </a>
+</div>
+
+{% if not clientes %}
+<div class="alert alert-warning" role="alert">
+    Ainda não existem clientes registados.
+</div>
+{% else %}
+<div class="card shadow-sm">
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-striped table-hover mb-0">
+                <thead class="table-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>Nome</th>
+                        <th>Email</th>
+                        <th>Telefone</th>
+                        <th>Morada</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for c in clientes %}
+                    <tr>
+                        <td>{{ c.id }}</td>
+                        <td><strong>{{ c.nome }}</strong></td>
+                        <td>{{ c.email }}</td>
+                        <td>{{ c.telefone }}</td>
+                        <td>{{ c.morada }}</td>
+                        <td>
+                            <a href="{{ url_for('clientes_editar', id=c.id) }}" class="btn btn-sm btn-primary">
+                                Editar
+                            </a>
+
+                            {% if session.role == 'admin' %}
+                            <form action="{{ url_for('clientes_apagar', id=c.id) }}" method="post" style="display:inline;">
+                                <button type="submit" class="btn btn-sm btn-danger"
+                                        onclick="return confirm('Tem a certeza? Apagar o cliente apaga também os animais e consultas!')">
+                                    Apagar
+                                </button>
+                            </form>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<div class="mt-4 mb-3">
+    <a href="{{ url_for('dashboard') }}" class="btn btn-outline-secondary">
+        <i class="bi bi-arrow-left"></i> Voltar ao Dashboard
+    </a>
+</div>
+
+{% endblock %}

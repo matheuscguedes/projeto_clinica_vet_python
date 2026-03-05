@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="p-5 mb-4 bg-light rounded-3 shadow-sm border">
+    <div class="container-fluid py-2">
+        <h1 class="display-5 fw-bold text-primary">Olá, {{ session.username }}! 👋</h1>
+        <p class="col-md-8 fs-4">Bem-vindo à Clínica Veterinária.</p>
+        <span class="badge bg-secondary text-uppercase fs-6">Perfil: {{ session.role }}</span>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row g-4">
+
+        {% if session.role == 'admin' %}
+        <div class="col-md-6 col-lg-4">
+            <a href="{{ url_for('users_lista') }}" class="text-decoration-none">
+                <div class="card h-100 shadow-sm border-danger card-dashboard text-center">
+                    <div class="card-body py-4">
+                        <h1 class="text-danger mb-3"><i class="bi bi-shield-lock"></i></h1>
+                        <h5 class="card-title text-dark">Gerir Utilizadores</h5>
+                        <p class="card-text text-muted small">Criar e editar acessos ao sistema</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+        {% endif %}
+
+        {% if session.role in ['admin', 'staff'] %}
+
+        <div class="col-md-6 col-lg-4">
+            <a href="{{ url_for('clientes_lista') }}" class="text-decoration-none">
+                <div class="card h-100 shadow-sm border-primary card-dashboard text-center">
+                    <div class="card-body py-4">
+                        <h1 class="text-primary mb-3"><i class="bi bi-people"></i></h1>
+                        <h5 class="card-title text-dark">Clientes</h5>
+                        <p class="card-text text-muted small">Gerir fichas de clientes</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-6 col-lg-4">
+            <a href="{{ url_for('animais_lista') }}" class="text-decoration-none">
+                <div class="card h-100 shadow-sm border-warning card-dashboard text-center">
+                    <div class="card-body py-4">
+                        <h1 class="text-warning mb-3"><i class="bi bi-github"></i></h1> <h5 class="card-title text-dark">Animais</h5>
+                        <p class="card-text text-muted small">Pacientes da clínica</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-6 col-lg-4">
+            <a href="{{ url_for('consultas_nova') }}" class="text-decoration-none">
+                <div class="card h-100 shadow-sm border-success card-dashboard text-center">
+                    <div class="card-body py-4">
+                        <h1 class="text-success mb-3"><i class="bi bi-plus-circle-dotted"></i></h1>
+                        <h5 class="card-title text-dark">Nova Consulta</h5>
+                        <p class="card-text text-muted small">Agendar atendimento</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-6 col-lg-4">
+            <a href="{{ url_for('consultas_lista') }}" class="text-decoration-none">
+                <div class="card h-100 shadow-sm border-info card-dashboard text-center">
+                    <div class="card-body py-4">
+                        <h1 class="text-info mb-3"><i class="bi bi-calendar3"></i></h1>
+                        <h5 class="card-title text-dark">Agenda</h5>
+                        <p class="card-text text-muted small">Ver todas as consultas</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        {% endif %}
+
+        {% if session.role == 'cliente' %}
+
+        <div class="col-md-6 col-lg-4">
+            <a href="{{ url_for('minha_conta') }}" class="text-decoration-none">
+                <div class="card h-100 shadow-sm border-primary card-dashboard text-center">
+                    <div class="card-body py-4">
+                        <h1 class="text-primary mb-3"><i class="bi bi-person-badge"></i></h1>
+                        <h5 class="card-title text-dark">O Meu Perfil</h5>
+                        <p class="card-text text-muted small">Ver dados pessoais</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-6 col-lg-4">
+            <a href="{{ url_for('meus_animais') }}" class="text-decoration-none">
+                <div class="card h-100 shadow-sm border-warning card-dashboard text-center">
+                    <div class="card-body py-4">
+                        <h1 class="text-warning mb-3"><i class="bi bi-heart-pulse"></i></h1>
+                        <h5 class="card-title text-dark">Meus Animais</h5>
+                        <p class="card-text text-muted small">Ver fichas dos meus animais</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-6 col-lg-4">
+            <a href="{{ url_for('minhas_consultas') }}" class="text-decoration-none">
+                <div class="card h-100 shadow-sm border-success card-dashboard text-center">
+                    <div class="card-body py-4">
+                        <h1 class="text-success mb-3"><i class="bi bi-calendar-check"></i></h1>
+                        <h5 class="card-title text-dark">Minhas Consultas</h5>
+                        <p class="card-text text-muted small">Histórico e agendamentos</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        {% endif %}
+
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,20 @@
+﻿{% extends "base.html" %}
+{% block content %}
+
+<div style="max-width: 600px; margin: 0 auto; background: white; padding: 30px; border-radius: 8px; border: 1px solid #ddd;">
+    <h2 style="border-bottom: 2px solid #8e44ad; padding-bottom: 10px;">👤 O Meu Perfil</h2>
+
+    <p><strong>Nome:</strong> {{ dados.nome }}</p>
+    <p><strong>Email:</strong> {{ dados.email }}</p>
+    <p><strong>Telefone:</strong> {{ dados.telefone }}</p>
+    <p><strong>Morada:</strong> {{ dados.morada }}</p>
+
+    <div style="margin-top: 30px;">
+        <a href="{{ url_for('minha_conta_editar') }}"
+           style="background-color: #2980b9; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">
+            ✏️ Editar Dados e Senha
+        </a>
+    </div>
+</div>
+
+{% endblock %}

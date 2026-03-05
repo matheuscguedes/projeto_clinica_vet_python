@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="fw-bold text-dark"><i class="bi bi-calendar-check text-primary"></i> Agenda da Clínica</h2>
+    <a href="{{ url_for('consultas_nova') }}" class="btn btn-success shadow-sm">
+        <i class="bi bi-calendar-plus"></i> Nova Consulta
+    </a>
+</div>
+
+<div class="card shadow border-0 mb-5">
+    <div class="card-header bg-success text-white py-3">
+        <h5 class="mb-0 fw-bold"><i class="bi bi-rocket-takeoff"></i> Próximas Consultas</h5>
+    </div>
+    <div class="card-body p-0">
+
+        {% if not futuras %}
+        <div class="p-4 text-center text-muted">
+            <i class="bi bi-calendar-x display-4 d-block mb-2"></i>
+            <p>Sem consultas agendadas para o futuro.</p>
+        </div>
+        {% else %}
+        <div class="table-responsive">
+            <table class="table table-striped table-hover mb-0 align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th class="py-3 ps-3">Data e Hora</th>
+                        <th class="py-3">Animal</th>
+                        <th class="py-3">Dono</th>
+                        <th class="py-3">Motivo</th>
+                        <th class="py-3 text-end pe-4">Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for c in futuras %}
+                    <tr>
+                        <td class="ps-3 fw-bold text-success">{{ c.data_hora }}</td>
+                        <td class="fw-bold">{{ c.animal_nome }}</td>
+                        <td>{{ c.dono_nome }}</td>
+                        <td>{{ c.motivo }}</td>
+
+                        <td class="text-end pe-3">
+                            <a href="{{ url_for('consultas_editar', id=c.id) }}" class="btn btn-sm btn-primary shadow-sm me-1" title="Editar">
+                                <i class="bi bi-pencil-square"></i>
+                            </a>
+
+                            <form action="{{ url_for('consultas_apagar', id=c.id) }}" method="post" style="display:inline;"
+                                  onsubmit="return confirm('Tem a certeza que deseja cancelar esta consulta?');">
+                                <button type="submit" class="btn btn-sm btn-danger shadow-sm" title="Cancelar Consulta">
+                                    <i class="bi bi-x-lg"></i>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<div class="card shadow border-0">
+    <div class="card-header bg-secondary text-white py-2">
+        <h6 class="mb-0"><i class="bi bi-clock-history"></i> Histórico (Passadas)</h6>
+    </div>
+    <div class="card-body p-0">
+
+        {% if not passadas %}
+        <div class="p-3 text-muted text-center">Sem histórico disponível.</div>
+        {% else %}
+        <div class="table-responsive">
+            <table class="table table-sm table-hover mb-0 align-middle text-secondary">
+                <thead class="table-light">
+                    <tr>
+                        <th class="ps-3">Data e Hora</th>
+                        <th>Animal</th>
+                        <th>Dono</th>
+                        <th>Motivo</th>
+                        <th class="text-end pe-4">Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for c in passadas %}
+                    <tr>
+                        <td class="ps-3">{{ c.data_hora }}</td>
+                        <td>{{ c.animal_nome }}</td>
+                        <td>{{ c.dono_nome }}</td>
+                        <td>{{ c.motivo }}</td>
+
+                        <td class="text-end pe-3">
+                            <form action="{{ url_for('consultas_apagar', id=c.id) }}" method="post" style="display:inline;"
+                                  onsubmit="return confirm('Apagar este registo do histórico permanentemente?');">
+                                <button type="submit" class="btn btn-sm btn-outline-danger border-0" title="Apagar Registo">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<div class="mt-4 mb-3">
+    <a href="{{ url_for('dashboard') }}" class="btn btn-outline-secondary">
+        <i class="bi bi-arrow-left"></i> Voltar ao Dashboard
+    </a>
+</div>
+
+{% endblock %}

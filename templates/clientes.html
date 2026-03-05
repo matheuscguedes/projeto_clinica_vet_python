@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>Gestão de Clientes</h2>
+
+<p><a href="{{ url_for('clientes_novo') }}">+ Novo Cliente</a></p>
+
+<table border="1" cellpadding="5">
+  <tr>
+    <th>ID</th>
+    <th>Nome</th>
+    <th>Email</th>
+    <th>Telefone</th>
+    <th>Ações</th>
+  </tr>
+  {% for c in clientes %}
+  <tr>
+    <td>{{ c.id }}</td>
+    <td>{{ c.nome }}</td>
+    <td>{{ c.email }}</td>
+    <td>{{ c.telefone }}</td>
+    <td>
+       <a href="#">Editar</a> 
+       
+       {% if session.role == 'admin' %}
+       | 
+       <form action="{{ url_for('clientes_apagar', id=c.id) }}" method="post" style="display:inline;">
+         <button type="submit" onclick="return confirm('Tem a certeza?')">X</button>
+       </form>
+       {% endif %}
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+
+{% endblock %}

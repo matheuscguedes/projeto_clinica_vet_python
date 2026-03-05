@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+    <h2>🗓️ As Minhas Consultas</h2>
+
+    {% if session.role != 'cliente' %}
+    <a href="{{ url_for('consultas_nova') }}"
+       style="background-color: #27ae60; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-weight: bold;">
+        + Marcar Consulta
+    </a>
+    {% endif %}
+</div>
+
+{% if not consultas %}
+<div style="padding: 20px; background-color: #f9f9f9; border-radius: 8px; border: 1px solid #eee;">
+    <p>Não tem consultas agendadas ou histórico disponível.</p>
+</div>
+{% else %}
+<div style="overflow-x: auto;">
+    <table border="1" cellpadding="10" style="border-collapse: collapse; width: 100%; border: 1px solid #ddd; background-color: white;">
+        <thead>
+            <tr style="background-color: #8e44ad; color: white; text-align: left;">
+                <th>Data e Hora</th>
+                <th>Animal</th>
+                <th>Motivo</th>
+                <th>Notas do Veterinário</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for c in consultas %}
+            <tr style="border-bottom: 1px solid #eee;">
+                <td>{{ c.data_hora }}</td>
+                <td><strong>{{ c.animal_nome }}</strong></td>
+                <td>{{ c.motivo }}</td>
+                <td>
+                    {% if c.notas %}
+                    {{ c.notas }}
+                    {% else %}
+                    <span style="color: #999; font-style: italic;">-</span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endif %}
+
+<p style="margin-top: 20px;">
+    <a href="{{ url_for('dashboard') }}" style="color: #7f8c8d; text-decoration: none;">← Voltar ao Dashboard</a>
+</p>
+
+{% endblock %}

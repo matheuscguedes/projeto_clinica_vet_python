@@ -1,0 +1,170 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+    /* Pequenos ajustes visuais que o Bootstrap não tem por padrão */
+    .hero-img {
+        height: 450px;
+        object-fit: cover;
+        object-position: center;
+    }
+
+    /* Efeito de "saltar" nos cartões de serviço */
+    .service-card {
+        transition: transform 0.3s ease-in-out;
+        border: 1px solid #f0f0f0;
+    }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            border-color: #3498db;
+            box-shadow: 0 1rem 3rem rgba(0,0,0,.175) !important;
+        }
+
+    /* Ícones grandes nos serviços */
+    .service-icon {
+        font-size: 3rem;
+        color: #0d6efd; /* Azul Bootstrap */
+        margin-bottom: 1rem;
+    }
+
+    /* Animação da barra de urgência */
+    @keyframes pulse-red {
+        0% {
+            transform: scale(1);
+            box-shadow: 0 0 0 0 rgba(231, 76, 60, 0.7);
+        }
+
+        70% {
+            transform: scale(1.02);
+            box-shadow: 0 0 0 10px rgba(231, 76, 60, 0);
+        }
+
+        100% {
+            transform: scale(1);
+            box-shadow: 0 0 0 0 rgba(231, 76, 60, 0);
+        }
+    }
+
+    .emergency-alert {
+        background-color: #e74c3c; /* Vermelho Urgência */
+        animation: pulse-red 2s infinite;
+    }
+</style>
+
+<div class="row justify-content-center mt-4">
+    <div class="col-lg-10 text-center">
+
+        <h1 class="display-5 fw-bold text-primary mb-4">
+            Bem-vindo à EFA Clínica Veterinária
+        </h1>
+
+        <div class="card shadow-lg border-0 overflow-hidden mb-4 rounded-4">
+            <img src="{{ url_for('static', filename = 'banner.png') }}"
+                 class="img-fluid w-100 hero-img"
+                 alt="Banner Clínica Veterinária">
+        </div>
+
+        <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mb-5">
+            {% if session.user_id %}
+            <div class="text-center">
+                <p class="lead text-muted mb-3">Olá, {{ session.username }}! O seu painel está pronto.</p>
+                <a href="{{ url_for('dashboard') }}" class="btn btn-primary btn-lg px-5 shadow-sm rounded-pill">
+                    <i class="bi bi-speedometer2"></i> Ir para o Dashboard
+                </a>
+            </div>
+            {% else %}
+            <div class="text-center">
+                <p class="lead text-muted mb-4">Acesso reservado a Clientes, Staff e Administradores.</p>
+                <a href="{{ url_for('login') }}" class="btn btn-success btn-lg px-5 gap-3 shadow-sm rounded-pill">
+                    <i class="bi bi-calendar-check"></i> Entrar / Marcar Consulta
+                </a>
+            </div>
+            {% endif %}
+        </div>
+
+    </div>
+</div>
+
+<div class="row justify-content-center mb-5">
+    <div class="col-md-8 col-lg-6">
+        <div class="alert emergency-alert text-white text-center fw-bold rounded-pill shadow" role="alert">
+            <i class="bi bi-heart-pulse-fill me-2"></i> Urgências 24H: 253 000 000
+        </div>
+    </div>
+</div>
+
+<div class="container mb-5">
+    <div class="text-center mb-5">
+        <h2 class="text-uppercase border-bottom border-3 border-primary d-inline-block pb-2">
+            Os Nossos Serviços
+        </h2>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-md-6 col-lg-3">
+            <div class="card h-100 shadow-sm service-card text-center py-4 px-3 rounded-4">
+                <div class="card-body">
+                    <div class="service-icon"><i class="bi bi-clipboard2-pulse"></i></div>
+                    <h4 class="card-title text-primary fw-bold">Consultas Gerais</h4>
+                    <p class="card-text text-muted">Medicina preventiva, check-ups anuais e acompanhamento geriátrico.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-3">
+            <div class="card h-100 shadow-sm service-card text-center py-4 px-3 rounded-4">
+                <div class="card-body">
+                    <div class="service-icon"><i class="bi bi-eyedropper"></i></div> <h4 class="card-title text-primary fw-bold">Vacinação</h4>
+                    <p class="card-text text-muted">Planos personalizados para garantir imunidade contra as principais doenças.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-3">
+            <div class="card h-100 shadow-sm service-card text-center py-4 px-3 rounded-4">
+                <div class="card-body">
+                    <div class="service-icon"><i class="bi bi-moisture"></i></div> <h4 class="card-title text-primary fw-bold">Análises</h4>
+                    <p class="card-text text-muted">Laboratório próprio para resultados rápidos em análises de sangue e urina.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-3">
+            <div class="card h-100 shadow-sm service-card text-center py-4 px-3 rounded-4">
+                <div class="card-body">
+                    <div class="service-icon"><i class="bi bi-scissors"></i></div>
+                    <h4 class="card-title text-primary fw-bold">Cirurgia</h4>
+                    <p class="card-text text-muted">Bloco operatório equipado para cirurgias de tecidos moles e ortopedia.</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="container mb-5">
+    <div class="bg-light p-5 rounded-4 border shadow-sm">
+        <div class="row text-center g-4">
+
+            <div class="col-md-4">
+                <h3 class="h5 text-primary fw-bold mb-3"><i class="bi bi-geo-alt-fill"></i> Onde Estamos</h3>
+                <p class="text-secondary mb-0">Rua da Formação, 125<br>Braga, Portugal</p>
+            </div>
+
+            <div class="col-md-4 border-start-md">
+                <h3 class="h5 text-primary fw-bold mb-3"><i class="bi bi-clock-fill"></i> Horário</h3>
+                <p class="text-secondary mb-0">Seg - Sex: 09:00 - 20:00<br>Sáb: 09:00 - 13:00</p>
+            </div>
+
+            <div class="col-md-4 border-start-md">
+                <h3 class="h5 text-primary fw-bold mb-3"><i class="bi bi-envelope-fill"></i> Contactos</h3>
+                <p class="text-secondary mb-0">geral@clinicavetefa.pt<br>253 000 000</p>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}

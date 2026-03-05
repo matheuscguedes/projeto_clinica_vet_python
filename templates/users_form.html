@@ -1,0 +1,72 @@
+﻿{% extends "base.html" %}
+
+{% block content %}
+
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+        <div class="card shadow-sm">
+            <div class="card-header bg-danger text-white">
+                <h4 class="mb-0"><i class="bi bi-shield-lock"></i> Gestão de Utilizador</h4>
+            </div>
+            <div class="card-body">
+                <form method="post">
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Username</label>
+                        <input type="text" name="username" class="form-control" required
+                               value="{{ user.username if user else '' }}"
+                               {% if user %}readonly style="background-color: #e9ecef;" {% endif %}>
+                        {% if user %}
+                        <div class="form-text text-muted">O username não pode ser alterado.</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Password</label>
+                        <input type="text" name="password" class="form-control" required
+                               value="{{ user.password if user else '' }}">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Role (Permissão)</label>
+                        <select name="role" class="form-select">
+                            <option value="staff" {% if user and user.role=='staff' %}selected{% endif %}>Staff</option>
+                            <option value="admin" {% if user and user.role=='admin' %}selected{% endif %}>Admin</option>
+                            <option value="cliente" {% if user and user.role=='cliente' %}selected{% endif %}>Cliente</option>
+                        </select>
+                    </div>
+
+                    <div class="alert alert-light border mb-3">
+                        <label class="form-label fw-bold text-success">
+                            <i class="bi bi-link-45deg"></i> Associar a Cliente
+                        </label>
+                        <div class="form-text mb-2">Obrigatório apenas se o Role for 'Cliente'.</div>
+
+                        <select name="cliente_id" class="form-select">
+                            <option value="">-- Nenhum (Para Staff/Admin) --</option>
+                            {% for c in clientes %}
+                            <option value="{{ c.id }}" {% if user and user.cliente_id==c.id %}selected{% endif %}>
+                                {{ c.nome }} (ID: {{ c.id }})
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="d-flex justify-content-end mt-4">
+                        <a href="{{ url_for('users_lista') }}" class="btn btn-secondary me-2">Cancelar</a>
+                        <button type="submit" class="btn btn-danger fw-bold">Guardar</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="mt-4 mb-3">
+    <a href="{{ url_for('dashboard') }}" class="btn btn-outline-secondary">
+        <i class="bi bi-arrow-left"></i> Voltar ao Dashboard
+    </a>
+</div>
+
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>Novo Utilizador</h2>
+
+<form method="post" style="max-width: 400px; background: #f9f9f9; padding: 20px; border-radius: 8px;">
+    
+    <p>
+        <label>Username:</label><br>
+        <input type="text" name="username" required style="width: 100%; padding: 8px;">
+    </p>
+
+    <p>
+        <label>Password:</label><br>
+        <input type="text" name="password" required style="width: 100%; padding: 8px;">
+    </p>
+
+    <p>
+        <label>Status:</label><br>
+        <select name="role" style="width: 100%; padding: 8px;">
+            <option value="staff">Staff</option>
+            <option value="admin">Admin</option>
+            <option value="cliente">Cliente</option>
+        </select>
+    </p>
+    
+    <p style="font-size: 0.9em; color: #666;">
+        Nota: Deverá associar o ID ao cliente posteriormente
+    </p>
+
+    <button type="submit" style="background-color: #27ae60; color: white; padding: 10px 20px; border: none; cursor: pointer;">Guardar</button>
+    <a href="{{ url_for('users_lista') }}" style="margin-left: 10px;">Cancelar</a>
+</form>
+
+{% endblock %}

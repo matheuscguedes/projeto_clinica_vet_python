@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+        <div class="card shadow-sm border-success">
+
+            <div class="card-header bg-success text-white">
+                <h4 class="mb-0">
+                    <i class="bi bi-calendar-event"></i> {{ 'Editar Consulta' if consulta else 'Marcar Consulta' }}
+                </h4>
+            </div>
+
+            <div class="card-body">
+                <form method="post">
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Selecione o Animal *</label>
+                        <select name="animal_id" class="form-select" required>
+                            {% if not consulta %}
+                            <option value="" disabled selected>-- Escolha da lista --</option>
+                            {% endif %}
+
+                            {% for a in animais %}
+                            <option value="{{ a.id }}" {% if consulta and consulta.animal_id==a.id %}selected{% endif %}>
+                                {{ a.nome }} (Dono: {{ a.dono_nome }})
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Data e Hora *</label>
+                        <input type="datetime-local" name="data_hora" class="form-control" required
+                               value="{{ consulta.data_hora|replace(' ', 'T') if consulta else '' }}">
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label fw-bold">Motivo da Consulta *</label>
+                        <input type="text" name="motivo" class="form-control" required
+                               value="{{ consulta.motivo if consulta else '' }}"
+                               placeholder="Ex: Vacinação, Check-up, Doença...">
+                    </div>
+
+                    <div class="d-flex justify-content-end mt-4">
+                        <a href="{{ url_for('consultas_lista') }}" class="btn btn-secondary me-2">Cancelar</a>
+                        <button type="submit" class="btn btn-success fw-bold">Guardar</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="mt-4 mb-3">
+    <a href="{{ url_for('dashboard') }}" class="btn btn-outline-secondary">
+        <i class="bi bi-arrow-left"></i> Voltar ao Dashboard
+    </a>
+</div>
+
+{% endblock %}
